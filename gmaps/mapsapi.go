@@ -69,7 +69,6 @@ type MapsApiClient struct {
 
 func (c *MapsApiClient) Autocomplete(input string) ([]prediction, error) {
 	q := url.Values{}
-	// q.Set("types", "(regions)")
 	q.Set("input", input)
 	data := autocompleteResponse{}
 	err := c.callMethod("place/autocomplete", q, &data)
