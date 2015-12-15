@@ -61,7 +61,7 @@ func gPlaceToPlace(gPlace gmaps.Place) *Place {
 	place.AddressComponents = make([]AddressComponent, len(gPlace.AddressComponents))
 	for i, c := range gPlace.AddressComponents {
 		place.AddressComponents[i].Name = c.Name
-		place.AddressComponents[i].Types = c.Types
+		place.AddressComponents[i].Type = c.Types[0]
 	}
 	if gPlace.Geometry.Viewport != nil {
 		northEast := gPlace.Geometry.Viewport.Northeast
@@ -85,6 +85,6 @@ func (p Place) String() string {
 }
 
 type AddressComponent struct {
-	Name  string
-	Types []string
+	Name string
+	Type string
 }
