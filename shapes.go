@@ -106,3 +106,32 @@ type FacebookLocation InstagramLocation
 
 // TwitterLocation is an object representing the location information returned by the Twitter API (a GeoJSON Point)
 type TwitterLocation Point
+
+type Geometry interface {
+	WKT() string
+}
+
+// Envelope is a GeoJSON like shape where coordinates contains [[left, top], [right, bottom]]
+type Envelope struct {
+	Type        string      `json:"type"`
+	Coordinates [][]float64 `json:"coordinates"`
+}
+
+func NewEnvelope(left, top, right, bottom float64) *Envelope {
+	e := Envelope{Type: "envelope", Coordinates: [][]float64{[]float64{left, top}, []float64{right, bottom}}}
+	return &e
+}
+
+func (e Envelope) WKT() string {
+	l, t := e.Coordinates[0][0], e.Coordinates[0][1]
+	r, b := e.Coordinates[1][0], e.Coordinates[1][1]
+	return fmt.Sprintf("POLYGON((%0.6f %0.6f, %0.6f %0.6f, %0.6f %0.6f, %0.6f %0.6f, %0.6f %0.6f))", l, t, l, b, r, b, r, t, l, t)
+}
+
+func (e Envelope) MarshalDB() (interface{}, error) {
+	return e.WKT(), nil
+}
+
+func (e Envelope) String() string {
+	return e.WKT()
+}
