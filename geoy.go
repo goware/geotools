@@ -9,6 +9,8 @@ var (
 	gmapsApiClient *gmaps.MapsApiClient
 )
 
+const KM = 1000
+
 func init() {
 	gmapsApiClient = &gmaps.MapsApiClient{}
 }
@@ -19,8 +21,8 @@ func SetApiKey(key string) {
 }
 
 // Convert a Point to a Place object using the Google API
-func PointToPlace(p LatLoner) (*Place, error) {
-	l := p.LatLon()
+func PointToPlace(p LatLnger) (*Place, error) {
+	l := p.LatLng()
 	places, err := gmapsApiClient.ReverseGeocode(l[0], l[1])
 	if err != nil {
 		return nil, err
@@ -30,6 +32,7 @@ func PointToPlace(p LatLoner) (*Place, error) {
 }
 
 // Convert a string place name/address to a Place object using the Google API
+// While the API may return many possible place results this method simply picks the first one
 func StringToPlace(s string) (*Place, error) {
 	predictions, err := gmapsApiClient.Autocomplete(s)
 	if err != nil {
@@ -55,7 +58,7 @@ func StringToPoint(s string) (*Point, error) {
 func gPlaceToPlace(gPlace gmaps.Place) *Place {
 	place := Place{
 		Name:          gPlace.Name,
-		Location:      PointFromLatLon(gPlace.Geometry.Location),
+		Location:      PointFromLatLng(gPlace.Geometry.Location),
 		AddressString: gPlace.FormattedAddress,
 	}
 	place.AddressComponents = make([]AddressComponent, len(gPlace.AddressComponents))

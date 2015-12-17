@@ -7,12 +7,12 @@ import (
 
 var (
 	p *Point
-	l *LatLon
+	l *LatLng
 )
 
 func init() {
 	p = &Point{Type: "point", Coordinates: []float64{-6.538, 53.339}}
-	l = &LatLon{Lat: 53.339, Lon: -6.538}
+	l = &LatLng{Lat: 53.339, Lng: -6.538}
 	SetApiKey("AIzaSyAwoYYcg8R4K91Sc8fim3hw7OPe48wX2RI")
 }
 
@@ -23,8 +23,8 @@ func TestNewPoint(t *testing.T) {
 	}
 }
 
-func TestLatLonFromPoint(t *testing.T) {
-	x := LatLonFromPoint(*NewPoint(-6.538, 53.339))
+func TestLatLngFromPoint(t *testing.T) {
+	x := LatLngFromPoint(*NewPoint(-6.538, 53.339))
 	if *x != *l {
 		t.Fail()
 	}
@@ -40,6 +40,14 @@ func TestPointToPlace(t *testing.T) {
 
 func TestStringToPlace(t *testing.T) {
 	place, err := StringToPlace("Liberty Village")
+	if err != nil {
+		t.Errorf("%s", err)
+	}
+	t.Logf("%v", place)
+}
+
+func TestStringToPlace2(t *testing.T) {
+	place, err := StringToPlace("Hipo, Istanbul")
 	if err != nil {
 		t.Errorf("%s", err)
 	}

@@ -55,7 +55,7 @@ type latlng struct {
 	Lng float64
 }
 
-func (l latlng) LatLon() []float64 {
+func (l latlng) LatLng() []float64 {
 	return []float64{l.Lat, l.Lng}
 }
 

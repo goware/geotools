@@ -1,17 +1,24 @@
 package geoy
 
-type LatLoner interface {
-	LatLon() []float64
+import (
+	"bytes"
+	"encoding/binary"
+	"encoding/hex"
+	"fmt"
+)
+
+type LatLnger interface {
+	LatLng() []float64
 }
 
-type LatLon struct {
+type LatLng struct {
 	Lat float64 `json:"lat"`
-	Lon float64 `json:"lon"`
+	Lng float64 `json:"lon"`
 }
 
-// LatLon returns an array of [lat, lon]
-func (l LatLon) LatLon() []float64 {
-	return []float64{l.Lon, l.Lat}
+// LatLng returns an array of [lat, lon]
+func (l LatLng) LatLng() []float64 {
+	return []float64{l.Lng, l.Lat}
 }
 
 // Point is a standard GeoJSON 2d Point with x,y coordinates
@@ -25,8 +32,8 @@ func NewPoint(x, y float64) *Point {
 	return &p
 }
 
-// LatLon returns an array of [lat, lon]
-func (p Point) LatLon() []float64 {
+// LatLng returns an array of [lat, lon]
+func (p Point) LatLng() []float64 {
 	return []float64{p.Coordinates[1], p.Coordinates[0]}
 }
 
@@ -66,27 +73,16 @@ func (p Point) String() string {
 	return p.WKT()
 }
 
-// Envelope is a GeoJSON like shape where coordinates contains [[left, top], [right, bottom]]
-type Envelope struct {
-	Type        string      `json:"type"`
-	Coordinates [][]float64 `json:"coordinates"`
-}
-
-func NewEnvelope(left, top, right, bottom float64) *Envelope {
-	e := Envelope{Type: "envelope", Coordinates: [][]float64{[]float64{left, top}, []float64{right, bottom}}}
-	return &e
-}
-
-// PointFromLatLon converts a latLon to a xy Point
-func PointFromLatLon(latlon LatLoner) *Point {
-	l := latlon.LatLon()
+// PointFromLatLng converts a latLng to a xy Point
+func PointFromLatLng(latlon LatLnger) *Point {
+	l := latlon.LatLng()
 	x, y := l[1], l[0]
 	return NewPoint(x, y)
 }
 
-// LatLonFromPoint converts a Point to a LatLon
-func LatLonFromPoint(p Point) *LatLon {
-	return &LatLon{Lat: p.Coordinates[1], Lon: p.Coordinates[0]}
+// LatLngFromPoint converts a Point to a LatLng
+func LatLngFromPoint(p Point) *LatLng {
+	return &LatLng{Lat: p.Coordinates[1], Lng: p.Coordinates[0]}
 }
 
 // InstagramLocation is an object representing the location information returned by the Instagram API
@@ -97,7 +93,7 @@ type InstagramLocation struct {
 	Name      string
 }
 
-func (l InstagramLocation) LatLon() []float64 {
+func (l InstagramLocation) LatLng() []float64 {
 	return []float64{l.Latitude, l.Longitude}
 }
 
