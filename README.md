@@ -54,3 +54,8 @@ but still create connections among the things around us.
 |  Hub   |---------*| Post   |*---------| User  |
  --------            --------            -------
 ```
+
+# NOTES
+
+* See Google's official Go client for Google Maps API:
+https://github.com/googlemaps/google-maps-services-go
