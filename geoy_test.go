@@ -13,7 +13,7 @@ var (
 func init() {
 	p = &Point{Type: "point", Coordinates: []float64{-6.538, 53.339}}
 	l = &LatLng{Lat: 53.339, Lng: -6.538}
-	SetApiKey("AIzaSyAwoYYcg8R4K91Sc8fim3hw7OPe48wX2RI")
+	SetAPIKey("AIzaSyAwoYYcg8R4K91Sc8fim3hw7OPe48wX2RI")
 }
 
 func TestNewPoint(t *testing.T) {
