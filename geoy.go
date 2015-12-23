@@ -5,19 +5,19 @@ import (
 )
 
 var (
-	defaultClient *gmaps.MapsApiClient
+	defaultMapsClient *gmaps.MapsApiClient
 )
 
 func mapsClient() *gmaps.MapsApiClient {
-	if defaultClient == nil {
-		panic("Client was not initialized. Missing call to SetAPIKey()?")
+	if defaultMapsClient == nil {
+		panic("Maps client was not initialized. Missing call to SetAPIKey()?")
 	}
-	return defaultClient
+	return defaultMapsClient
 }
 
 // SetAPIKey sets the Google Maps API key.
 func SetAPIKey(key string) {
-	defaultClient = gmaps.NewMapsClient(key)
+	defaultMapsClient = gmaps.NewMapsClient(key)
 }
 
 // PointToPlace lookups a coordinate and returns the place that corresponds to it.
@@ -39,7 +39,7 @@ func PointToPlace(p LatLnger) (*Place, error) {
 // the API may return many possible place results this method simply picks the
 // first one
 func StringToPlace(s string) (*Place, error) {
-	predictions, err := defaultClient.Autocomplete(s)
+	predictions, err := defaultMapsClient.Autocomplete(s)
 	if err != nil {
 		return nil, err
 	}
