@@ -28,6 +28,7 @@ func PointToPlace(p LatLnger) (*Place, error) {
 		return nil, err
 	}
 	res := result{
+		PlaceID:           places[0].PlaceID,
 		AddressComponents: places[0].AddressComponents,
 		Geometry:          places[0].Geometry,
 		FormattedAddress:  places[0].FormattedAddress,
@@ -49,6 +50,7 @@ func StringToPlace(s string) (*Place, error) {
 		return nil, err
 	}
 	res := result{
+		PlaceID:           placeDetails.PlaceID,
 		AddressComponents: placeDetails.AddressComponents,
 		Geometry:          placeDetails.Geometry,
 		FormattedAddress:  placeDetails.FormattedAddress,

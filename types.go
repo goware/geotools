@@ -13,6 +13,7 @@ type AddressComponent struct {
 
 // Place represents a physical location.
 type Place struct {
+	PlaceID           string
 	Name              string
 	AddressComponents []AddressComponent
 	AddressString     string
@@ -27,6 +28,7 @@ func (p Place) String() string {
 
 func (r result) toPlace() *Place {
 	place := Place{
+		PlaceID:       r.PlaceID,
 		Name:          gPlaceName(r.AddressComponents),
 		Location:      gLatLngToPoint(r.Geometry.Location),
 		AddressString: r.FormattedAddress,
@@ -46,6 +48,7 @@ func (r result) toPlace() *Place {
 }
 
 type result struct {
+	PlaceID           string
 	AddressComponents []maps.AddressComponent
 	Geometry          maps.AddressGeometry
 	FormattedAddress  string
