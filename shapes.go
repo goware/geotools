@@ -8,6 +8,18 @@ import (
 	"googlemaps.github.io/maps"
 )
 
+const (
+	defaultSRID = 4326 // https://en.wikipedia.org/wiki/World_Geodetic_System
+)
+
+type pointEWKB struct {
+	Endiness byte
+	Type     uint32
+	SRID     uint32
+	X        float64
+	Y        float64
+}
+
 // LatLnger defines a struct that can convert itself to cartesian coordinates.
 type LatLnger interface {
 	LatLng() []float64
@@ -45,22 +57,17 @@ func (p Point) MarshalDB() (interface{}, error) {
 
 // UnmarshalDB converts an stored point into a Point struct.
 func (p *Point) UnmarshalDB(v interface{}) error {
-	b, err := hex.DecodeString(v.(string))
+	s := string(v.([]byte))
+
+	b, err := hex.DecodeString(s)
 	if err != nil {
 		return err
 	}
+
 	buf := bytes.NewReader(b)
-	type pointEWKB struct {
-		Endiness byte
-		Type     uint32
-		SRID     uint32
-		X        float64
-		Y        float64
-	}
 	var ewkb pointEWKB
 	err = binary.Read(buf, binary.LittleEndian, &ewkb)
 	if err != nil {
-		fmt.Printf("%v", err)
 		return err
 	}
 	p.Type = "point"
@@ -70,7 +77,7 @@ func (p *Point) UnmarshalDB(v interface{}) error {
 
 // WKT implements Geometry.
 func (p Point) WKT() string {
-	return fmt.Sprintf("POINT(%0.6f %0.6f)", p.Coordinates[0], p.Coordinates[1])
+	return fmt.Sprintf("SRID=%d;POINT(%0.6f %0.6f)", defaultSRID, p.Coordinates[0], p.Coordinates[1])
 }
 
 // String returns a text representation of the point.
