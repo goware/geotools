@@ -20,6 +20,21 @@ func SetAPIKey(key string) {
 	defaultMapsClient = gmaps.NewMapsClient(key)
 }
 
+// PlaceDetails returns the details of a place given its placeId.
+func PlaceDetails(placeId string) (*Place, error) {
+	place, err := mapsClient().Details(placeId)
+	if err != nil {
+		return nil, err
+	}
+	res := result{
+		PlaceID:           place.PlaceID,
+		AddressComponents: place.AddressComponents,
+		Geometry:          place.Geometry,
+		FormattedAddress:  place.FormattedAddress,
+	}
+	return res.toPlace(), nil
+}
+
 // PointToPlace lookups a coordinate and returns the place that corresponds to it.
 func PointToPlace(p LatLnger) (*Place, error) {
 	l := p.LatLng()

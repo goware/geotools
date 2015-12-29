@@ -10,46 +10,6 @@ var (
 	defaultTimeout = time.Second * 15
 )
 
-/*
-type autocompleteResponse struct {
-	Status      string
-	Predictions []prediction
-}
-
-type prediction struct {
-	Description string
-	PlaceId     string `json:"place_id"`
-}
-
-type geocodeResponse struct {
-	Status  string
-	Results []maps.PlaceDetailsResult
-}
-
-type geometry struct {
-	Location latlng
-	Viewport *viewport
-}
-
-type viewport struct {
-	Northeast latlng
-	Southwest latlng
-}
-
-type latlng struct {
-	Lat float64
-	Lng float64
-}
-
-func (l latlng) LatLng() []float64 {
-	return []float64{l.Lat, l.Lng}
-}
-
-func (l *latlng) String() string {
-	return fmt.Sprintf("%0.6f,%0.6f", l.Lat, l.Lng)
-}
-*/
-
 type MapsApiClient struct {
 	key    string
 	client *maps.Client

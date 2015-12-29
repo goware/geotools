@@ -17,9 +17,8 @@ func TestDetails(t *testing.T) {
 	t.Logf("place: %v ", place)
 }
 
-/*
 func TestAutocomplete(t *testing.T) {
-	api := &MapsApiClient{Key: "AIzaSyAwoYYcg8R4K91Sc8fim3hw7OPe48wX2RI"}
+	api := NewMapsClient(apiKey)
 	predictions, err := api.Autocomplete("dublin")
 	if err != nil {
 		t.Errorf("Error: %s", err)
@@ -30,7 +29,7 @@ func TestAutocomplete(t *testing.T) {
 }
 
 func TestReverseGeocode(t *testing.T) {
-	api := &MapsApiClient{Key: "AIzaSyAwoYYcg8R4K91Sc8fim3hw7OPe48wX2RI"}
+	api := NewMapsClient(apiKey)
 	places, err := api.ReverseGeocode(53.339897, -6.538458899999999)
 	if err != nil {
 		t.Errorf("Error: %s", err)
@@ -39,4 +38,12 @@ func TestReverseGeocode(t *testing.T) {
 		t.Logf("%v", p)
 	}
 }
-*/
+
+func TestDeatils(t *testing.T) {
+	api := NewMapsClient(apiKey)
+	place, err := api.Details("ChIJrTLr-GyuEmsRBfy61i59si0")
+	if err != nil {
+		t.Errorf("Error: %s", err)
+	}
+	t.Logf("%v", place)
+}

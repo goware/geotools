@@ -62,6 +62,14 @@ func TestStringToPoint(t *testing.T) {
 	t.Logf("%v", x)
 }
 
+func TestPlaceDetails(t *testing.T) {
+	place, err := PlaceDetails("ChIJrTLr-GyuEmsRBfy61i59si0")
+	if err != nil {
+		t.Errorf("%s", err)
+	}
+	t.Logf("%v", place)
+}
+
 func TestInstagramToPlace(t *testing.T) {
 	b := []byte(`{
         "latitude": 37.780885099999999,
