@@ -7,18 +7,18 @@ import (
 
 // AddressComponent represents a part of an address.
 type AddressComponent struct {
-	Name string
-	Type string
+	Name string `json:"name"`
+	Type string `json:"type"`
 }
 
 // Place represents a physical location.
 type Place struct {
-	PlaceID           string
-	Name              string
-	AddressComponents []AddressComponent
-	AddressString     string
-	Location          *Point
-	BoundingBox       *Envelope
+	PlaceID           string             `json:"place_id"`
+	Name              string             `json:"name"`
+	AddressComponents []AddressComponent `json:"address_components"`
+	AddressString     string             `json:"address_string"`
+	Location          *Point             `json:"location"`
+	BoundingBox       *Envelope          `json:"bounding_box"`
 }
 
 func (p Place) String() string {
