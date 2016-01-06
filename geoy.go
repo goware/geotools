@@ -56,7 +56,7 @@ func PointToPlace(p LatLnger) (*Place, error) {
 // the API may return many possible place results this method simply picks the
 // first one
 func StringToPlace(s string) (*Place, error) {
-	predictions, err := defaultMapsClient.Autocomplete(s)
+	predictions, err := mapsClient().Autocomplete(s)
 	if err != nil {
 		return nil, err
 	}
