@@ -16,8 +16,9 @@ func mapsClient() *gmaps.MapsApiClient {
 }
 
 // SetAPIKey sets the Google Maps API key.
-func SetAPIKey(key string) {
-	defaultMapsClient = gmaps.NewMapsClient(key)
+func SetAPIKey(key string) (err error) {
+	defaultMapsClient, err = gmaps.NewMapsClient(key)
+	return err
 }
 
 // PlaceDetails returns the details of a place given its placeId.

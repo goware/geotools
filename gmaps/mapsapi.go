@@ -15,10 +15,14 @@ type MapsApiClient struct {
 	client *maps.Client
 }
 
-func NewMapsClient(key string) *MapsApiClient {
+func NewMapsClient(key string) (*MapsApiClient, error) {
 	c := &MapsApiClient{key: key}
-	c.client, _ = maps.NewClient(maps.WithAPIKey(c.key))
-	return c
+	mapsClient, err := maps.NewClient(maps.WithAPIKey(c.key))
+	if err != nil {
+		return nil, err
+	}
+	c.client = mapsClient
+	return c, nil
 }
 
 func (c *MapsApiClient) Autocomplete(input string) ([]maps.QueryAutocompletePrediction, error) {
@@ -31,8 +35,8 @@ func (c *MapsApiClient) Autocomplete(input string) ([]maps.QueryAutocompletePred
 		// Missing lat,lng, missing radius.
 	}
 
-	ctx, fn := context.WithTimeout(context.Background(), defaultTimeout)
-	defer fn()
+	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
+	defer cancel()
 
 	res, err := c.client.QueryAutocomplete(ctx, &req)
 	if err != nil {
@@ -51,8 +55,8 @@ func (c *MapsApiClient) Details(placeID string) (*maps.PlaceDetailsResult, error
 		PlaceID: placeID,
 	}
 
-	ctx, fn := context.WithTimeout(context.Background(), defaultTimeout)
-	defer fn()
+	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
+	defer cancel()
 
 	res, err := c.client.PlaceDetails(ctx, &req)
 	if err != nil {
@@ -74,8 +78,8 @@ func (c *MapsApiClient) ReverseGeocode(lat, lng float64) ([]maps.GeocodingResult
 		},
 	}
 
-	ctx, fn := context.WithTimeout(context.Background(), defaultTimeout)
-	defer fn()
+	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
+	defer cancel()
 
 	res, err := c.client.Geocode(ctx, &req)
 	if err != nil {
