@@ -7,28 +7,43 @@ import (
 )
 
 func (c *MapsApiClient) Autocomplete(input string) ([]maps.QueryAutocompletePrediction, error) {
-	if v, err := readMock(mockKey("Autocomplete", input)); err == nil {
+	key := mockKey("Autocomplete", input)
+
+	if v, err := readMock(key); err == nil {
 		res, _ := v[0].([]maps.QueryAutocompletePrediction)
 		err, _ := v[1].(error)
 		return res, err
 	}
-	return nil, errNoMockData
+
+	res, err := c.doAutocomplete(input)
+	writeMock(key, res, err)
+	return res, err
 }
 
 func (c *MapsApiClient) Details(placeID string) (*maps.PlaceDetailsResult, error) {
-	if v, err := readMock(mockKey("Details", placeID)); err == nil {
+	key := mockKey("Details", placeID)
+
+	if v, err := readMock(key); err == nil {
 		res, _ := v[0].(*maps.PlaceDetailsResult)
 		err, _ := v[1].(error)
 		return res, err
 	}
-	return nil, errNoMockData
+
+	res, err := c.doDetails(placeID)
+	writeMock(key, res, err)
+	return res, err
 }
 
 func (c *MapsApiClient) ReverseGeocode(lat, lng float64) ([]maps.GeocodingResult, error) {
-	if v, err := readMock(mockKey("ReverseGeocode", lat, lng)); err == nil {
+	key := mockKey("ReverseGeocode", lat, lng)
+
+	if v, err := readMock(key); err == nil {
 		res, _ := v[0].([]maps.GeocodingResult)
 		err, _ := v[1].(error)
 		return res, err
 	}
-	return nil, errNoMockData
+
+	res, err := c.doReverseGeocode(lat, lng)
+	writeMock(key, res, err)
+	return res, err
 }

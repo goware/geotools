@@ -64,7 +64,12 @@ func writeMock(key string, data ...interface{}) error {
 	defer mockMu.Unlock()
 	mockMap[key] = data
 	log.Printf("Wrote key %v", key)
-	// writeMockFile()
+
+	// Don't know how to make this happen just once at the end of the program. I
+	// don't think this is too bad, this mock helper was written for internal use
+	// only.
+	writeMockFile()
+
 	return nil
 }
 
