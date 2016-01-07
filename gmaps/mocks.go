@@ -1,3 +1,5 @@
+// +build mock
+
 package gmaps
 
 import (
@@ -11,16 +13,23 @@ import (
 	"sync"
 )
 
-const mockFile = `mocks.gob`
+const defaultMockFile = `mocks.gob`
 
 type mockData []interface{}
 
+var errNoMockData = errors.New(`No mock data.`)
+
 var (
-	mockMap map[string]mockData
-	mockMu  sync.RWMutex
+	mockFile string
+	mockMap  map[string]mockData
+	mockMu   sync.RWMutex
 )
 
 func init() {
+	if mockFile = os.Getenv("MOCK_FILE"); mockFile == "" {
+		mockFile = defaultMockFile
+	}
+
 	mockMap = make(map[string]mockData)
 
 	gob.Register(&maps.PlaceDetailsResult{})
@@ -36,17 +45,17 @@ func init() {
 		if err != nil {
 			panic(err.Error())
 		}
-		fmt.Printf("maps: %#v", mockMap)
 	}
 }
 
 func readMock(key string) ([]interface{}, error) {
 	mockMu.RLock()
 	defer mockMu.RUnlock()
-	log.Printf("Reading mock resource with key %v", key)
 	if v, ok := mockMap[key]; ok {
+		log.Printf("Reading mock resource with key %v", key)
 		return v, nil
 	}
+	log.Printf("No such key %v", key)
 	return nil, errors.New(`No such key`)
 }
 
@@ -54,6 +63,8 @@ func writeMock(key string, data ...interface{}) error {
 	mockMu.Lock()
 	defer mockMu.Unlock()
 	mockMap[key] = data
+	log.Printf("Wrote key %v", key)
+	// writeMockFile()
 	return nil
 }
 
