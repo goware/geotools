@@ -45,6 +45,12 @@ func NewPoint(x, y float64) *Point {
 	return &p
 }
 
+// NewPointFromLatLng creates a cartesian point that represents the given
+// geographic coordinates.
+func NewPointFromLatLng(lat, lng float64) *Point {
+	return NewPoint(lng, lat)
+}
+
 // LatLng implements LatLngr.
 func (p Point) LatLng() []float64 {
 	return []float64{p.Coordinates[1], p.Coordinates[0]}
