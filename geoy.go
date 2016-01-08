@@ -22,9 +22,9 @@ func SetAPIKey(key string) (err error) {
 	return err
 }
 
-// PlaceDetails returns the details of a place given its placeId.
-func PlaceDetails(ctx context.Context, placeId string) (*Place, error) {
-	place, err := mapsClient().Details(ctx, placeId)
+// PlaceDetails returns the details of a place given its placeID.
+func PlaceDetails(ctx context.Context, placeID string) (*Place, error) {
+	place, err := mapsClient().Details(ctx, placeID)
 	if err != nil {
 		return nil, err
 	}

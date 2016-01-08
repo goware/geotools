@@ -2,8 +2,9 @@ package geoy
 
 import (
 	"encoding/json"
-	"golang.org/x/net/context"
 	"testing"
+
+	"golang.org/x/net/context"
 )
 
 var (

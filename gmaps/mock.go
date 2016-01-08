@@ -6,11 +6,12 @@ import (
 	"encoding/gob"
 	"errors"
 	"fmt"
-	"googlemaps.github.io/maps"
 	"log"
 	"os"
 	"strings"
 	"sync"
+
+	"googlemaps.github.io/maps"
 )
 
 const defaultMockFile = `mocks.gob`

@@ -2,6 +2,7 @@ package geoy
 
 import (
 	"encoding/json"
+
 	"googlemaps.github.io/maps"
 )
 
