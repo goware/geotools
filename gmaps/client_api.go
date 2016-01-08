@@ -3,17 +3,18 @@
 package gmaps
 
 import (
+	"golang.org/x/net/context"
 	"googlemaps.github.io/maps"
 )
 
-func (c *MapsApiClient) Autocomplete(input string) ([]maps.QueryAutocompletePrediction, error) {
-	return c.doAutocomplete(input)
+func (c *MapsApiClient) Autocomplete(ctx context.Context, input string) ([]maps.QueryAutocompletePrediction, error) {
+	return c.doAutocomplete(ctx, input)
 }
 
-func (c *MapsApiClient) Details(placeID string) (*maps.PlaceDetailsResult, error) {
-	return c.doDetails(placeID)
+func (c *MapsApiClient) Details(ctx context.Context, placeID string) (*maps.PlaceDetailsResult, error) {
+	return c.doDetails(ctx, placeID)
 }
 
-func (c *MapsApiClient) ReverseGeocode(lat, lng float64) ([]maps.GeocodingResult, error) {
-	return c.doReverseGeocode(lat, lng)
+func (c *MapsApiClient) ReverseGeocode(ctx context.Context, lat, lng float64) ([]maps.GeocodingResult, error) {
+	return c.doReverseGeocode(ctx, lat, lng)
 }

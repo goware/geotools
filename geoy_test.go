@@ -2,6 +2,7 @@ package geoy
 
 import (
 	"encoding/json"
+	"golang.org/x/net/context"
 	"testing"
 )
 
@@ -31,7 +32,7 @@ func TestLatLngFromPoint(t *testing.T) {
 }
 
 func TestPointToPlace(t *testing.T) {
-	place, err := PointToPlace(*p)
+	place, err := PointToPlace(context.Background(), *p)
 	if err != nil {
 		t.Errorf("%s", err)
 	}
@@ -39,7 +40,7 @@ func TestPointToPlace(t *testing.T) {
 }
 
 func TestStringToPlace(t *testing.T) {
-	place, err := StringToPlace("Liberty Village")
+	place, err := StringToPlace(context.Background(), "Liberty Village")
 	if err != nil {
 		t.Errorf("%s", err)
 	}
@@ -47,7 +48,7 @@ func TestStringToPlace(t *testing.T) {
 }
 
 func TestStringToPlace2(t *testing.T) {
-	place, err := StringToPlace("Hipo, Istanbul")
+	place, err := StringToPlace(context.Background(), "Hipo, Istanbul")
 	if err != nil {
 		t.Errorf("%s", err)
 	}
@@ -55,7 +56,7 @@ func TestStringToPlace2(t *testing.T) {
 }
 
 func TestStringToPoint(t *testing.T) {
-	x, err := StringToPoint("Liberty Village")
+	x, err := StringToPoint(context.Background(), "Liberty Village")
 	if err != nil {
 		t.Errorf("%s", err)
 	}
@@ -63,7 +64,7 @@ func TestStringToPoint(t *testing.T) {
 }
 
 func TestPlaceDetails(t *testing.T) {
-	place, err := PlaceDetails("ChIJrTLr-GyuEmsRBfy61i59si0")
+	place, err := PlaceDetails(context.Background(), "ChIJrTLr-GyuEmsRBfy61i59si0")
 	if err != nil {
 		t.Errorf("%s", err)
 	}
@@ -79,7 +80,7 @@ func TestInstagramToPlace(t *testing.T) {
     }`)
 	var v InstagramLocation
 	json.Unmarshal(b, &v)
-	place, err := PointToPlace(v)
+	place, err := PointToPlace(context.Background(), v)
 	if err != nil {
 		t.Errorf("%s", err)
 	}

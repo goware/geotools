@@ -2,11 +2,6 @@ package gmaps
 
 import (
 	"googlemaps.github.io/maps"
-	"time"
-)
-
-var (
-	defaultTimeout = time.Second * 15
 )
 
 type MapsApiClient struct {

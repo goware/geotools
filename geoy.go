@@ -2,6 +2,7 @@ package geoy
 
 import (
 	"github.com/pressly/geoy/gmaps"
+	"golang.org/x/net/context"
 )
 
 var (
@@ -22,8 +23,8 @@ func SetAPIKey(key string) (err error) {
 }
 
 // PlaceDetails returns the details of a place given its placeId.
-func PlaceDetails(placeId string) (*Place, error) {
-	place, err := mapsClient().Details(placeId)
+func PlaceDetails(ctx context.Context, placeId string) (*Place, error) {
+	place, err := mapsClient().Details(ctx, placeId)
 	if err != nil {
 		return nil, err
 	}
@@ -37,9 +38,9 @@ func PlaceDetails(placeId string) (*Place, error) {
 }
 
 // PointToPlace lookups a coordinate and returns the place that corresponds to it.
-func PointToPlace(p LatLnger) (*Place, error) {
+func PointToPlace(ctx context.Context, p LatLnger) (*Place, error) {
 	l := p.LatLng()
-	places, err := mapsClient().ReverseGeocode(l[0], l[1])
+	places, err := mapsClient().ReverseGeocode(ctx, l[0], l[1])
 	if err != nil {
 		return nil, err
 	}
@@ -55,13 +56,13 @@ func PointToPlace(p LatLnger) (*Place, error) {
 // StringToPlace converts a string place name/address to a Place object. While
 // the API may return many possible place results this method simply picks the
 // first one
-func StringToPlace(s string) (*Place, error) {
-	predictions, err := mapsClient().Autocomplete(s)
+func StringToPlace(ctx context.Context, s string) (*Place, error) {
+	predictions, err := mapsClient().Autocomplete(ctx, s)
 	if err != nil {
 		return nil, err
 	}
 	placeID := predictions[0].PlaceID
-	placeDetails, err := mapsClient().Details(placeID)
+	placeDetails, err := mapsClient().Details(ctx, placeID)
 	if err != nil {
 		return nil, err
 	}
@@ -76,8 +77,8 @@ func StringToPlace(s string) (*Place, error) {
 
 // StringToPoint converts a string place name/address to a Point (using
 // StringToPlace)
-func StringToPoint(s string) (*Point, error) {
-	p, err := StringToPlace(s)
+func StringToPoint(ctx context.Context, s string) (*Point, error) {
+	p, err := StringToPlace(ctx, s)
 	if err != nil {
 		return nil, err
 	}

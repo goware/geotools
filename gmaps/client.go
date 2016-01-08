@@ -5,7 +5,7 @@ import (
 	"googlemaps.github.io/maps"
 )
 
-func (c *MapsApiClient) doAutocomplete(input string) ([]maps.QueryAutocompletePrediction, error) {
+func (c *MapsApiClient) doAutocomplete(ctx context.Context, input string) ([]maps.QueryAutocompletePrediction, error) {
 	if c.client == nil {
 		return nil, errMissingClient
 	}
@@ -13,9 +13,6 @@ func (c *MapsApiClient) doAutocomplete(input string) ([]maps.QueryAutocompletePr
 	req := maps.QueryAutocompleteRequest{
 		Input: input,
 	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
-	defer cancel()
 
 	res, err := c.client.QueryAutocomplete(ctx, &req)
 	if err != nil {
@@ -25,7 +22,7 @@ func (c *MapsApiClient) doAutocomplete(input string) ([]maps.QueryAutocompletePr
 	return res.Predictions, err
 }
 
-func (c *MapsApiClient) doDetails(placeID string) (*maps.PlaceDetailsResult, error) {
+func (c *MapsApiClient) doDetails(ctx context.Context, placeID string) (*maps.PlaceDetailsResult, error) {
 	if c.client == nil {
 		return nil, errMissingClient
 	}
@@ -33,9 +30,6 @@ func (c *MapsApiClient) doDetails(placeID string) (*maps.PlaceDetailsResult, err
 	req := maps.PlaceDetailsRequest{
 		PlaceID: placeID,
 	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
-	defer cancel()
 
 	res, err := c.client.PlaceDetails(ctx, &req)
 	if err != nil {
@@ -45,7 +39,7 @@ func (c *MapsApiClient) doDetails(placeID string) (*maps.PlaceDetailsResult, err
 	return &res, err
 }
 
-func (c *MapsApiClient) doReverseGeocode(lat, lng float64) ([]maps.GeocodingResult, error) {
+func (c *MapsApiClient) doReverseGeocode(ctx context.Context, lat, lng float64) ([]maps.GeocodingResult, error) {
 	if c.client == nil {
 		return nil, errMissingClient
 	}
@@ -56,9 +50,6 @@ func (c *MapsApiClient) doReverseGeocode(lat, lng float64) ([]maps.GeocodingResu
 			Lng: lng,
 		},
 	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
-	defer cancel()
 
 	res, err := c.client.Geocode(ctx, &req)
 	if err != nil {

@@ -3,10 +3,11 @@
 package gmaps
 
 import (
+	"golang.org/x/net/context"
 	"googlemaps.github.io/maps"
 )
 
-func (c *MapsApiClient) Autocomplete(input string) ([]maps.QueryAutocompletePrediction, error) {
+func (c *MapsApiClient) Autocomplete(ctx context.Context, input string) ([]maps.QueryAutocompletePrediction, error) {
 	key := mockKey("Autocomplete", input)
 
 	if v, err := readMock(key); err == nil {
@@ -15,12 +16,12 @@ func (c *MapsApiClient) Autocomplete(input string) ([]maps.QueryAutocompletePred
 		return res, err
 	}
 
-	res, err := c.doAutocomplete(input)
+	res, err := c.doAutocomplete(ctx, input)
 	writeMock(key, res, err)
 	return res, err
 }
 
-func (c *MapsApiClient) Details(placeID string) (*maps.PlaceDetailsResult, error) {
+func (c *MapsApiClient) Details(ctx context.Context, placeID string) (*maps.PlaceDetailsResult, error) {
 	key := mockKey("Details", placeID)
 
 	if v, err := readMock(key); err == nil {
@@ -29,12 +30,12 @@ func (c *MapsApiClient) Details(placeID string) (*maps.PlaceDetailsResult, error
 		return res, err
 	}
 
-	res, err := c.doDetails(placeID)
+	res, err := c.doDetails(ctx, placeID)
 	writeMock(key, res, err)
 	return res, err
 }
 
-func (c *MapsApiClient) ReverseGeocode(lat, lng float64) ([]maps.GeocodingResult, error) {
+func (c *MapsApiClient) ReverseGeocode(ctx context.Context, lat, lng float64) ([]maps.GeocodingResult, error) {
 	key := mockKey("ReverseGeocode", lat, lng)
 
 	if v, err := readMock(key); err == nil {
@@ -43,7 +44,7 @@ func (c *MapsApiClient) ReverseGeocode(lat, lng float64) ([]maps.GeocodingResult
 		return res, err
 	}
 
-	res, err := c.doReverseGeocode(lat, lng)
+	res, err := c.doReverseGeocode(ctx, lat, lng)
 	writeMock(key, res, err)
 	return res, err
 }
