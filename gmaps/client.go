@@ -14,7 +14,10 @@ func (c *MapsApiClient) doAutocomplete(ctx context.Context, input string) ([]map
 		Input: input,
 	}
 
-	res, err := c.client.QueryAutocomplete(ctx, &req)
+	lctx, cancel := context.WithTimeout(ctx, queryTimeout)
+	defer cancel()
+
+	res, err := c.client.QueryAutocomplete(lctx, &req)
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +34,10 @@ func (c *MapsApiClient) doTextSearch(ctx context.Context, input string) ([]maps.
 		Query: input,
 	}
 
-	res, err := c.client.TextSearch(ctx, &req)
+	lctx, cancel := context.WithTimeout(ctx, queryTimeout)
+	defer cancel()
+
+	res, err := c.client.TextSearch(lctx, &req)
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +54,10 @@ func (c *MapsApiClient) doDetails(ctx context.Context, placeID string) (*maps.Pl
 		PlaceID: placeID,
 	}
 
-	res, err := c.client.PlaceDetails(ctx, &req)
+	lctx, cancel := context.WithTimeout(ctx, queryTimeout)
+	defer cancel()
+
+	res, err := c.client.PlaceDetails(lctx, &req)
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +77,10 @@ func (c *MapsApiClient) doReverseGeocode(ctx context.Context, lat, lng float64) 
 		},
 	}
 
-	res, err := c.client.Geocode(ctx, &req)
+	lctx, cancel := context.WithTimeout(ctx, queryTimeout)
+	defer cancel()
+
+	res, err := c.client.Geocode(lctx, &req)
 	if err != nil {
 		return nil, err
 	}

@@ -1,8 +1,12 @@
 package gmaps
 
 import (
+	"time"
+
 	"googlemaps.github.io/maps"
 )
+
+var queryTimeout = time.Second * 10
 
 type MapsApiClient struct {
 	key    string
