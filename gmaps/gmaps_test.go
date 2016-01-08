@@ -14,8 +14,7 @@ const (
 func TestDetails(t *testing.T) {
 	api, err := NewMapsClient(apiKey)
 	assert.NoError(t, err)
-	ctx := context.Background()
-	place, err := api.Details(ctx, "ChIJL6wn6oAOZ0gRoHExl6nHAAo")
+	place, err := api.Details(context.Background(), "ChIJL6wn6oAOZ0gRoHExl6nHAAo")
 	assert.NoError(t, err)
 	assert.NotNil(t, place)
 	t.Logf("place: %v ", place)
@@ -24,8 +23,7 @@ func TestDetails(t *testing.T) {
 func TestAutocomplete(t *testing.T) {
 	api, err := NewMapsClient(apiKey)
 	assert.NoError(t, err)
-	ctx := context.Background()
-	predictions, err := api.Autocomplete(ctx, "dublin")
+	predictions, err := api.Autocomplete(context.Background(), "dublin")
 	assert.NoError(t, err)
 	assert.True(t, len(predictions) > 0)
 	for _, p := range predictions {
@@ -33,11 +31,21 @@ func TestAutocomplete(t *testing.T) {
 	}
 }
 
+func TestTextSearch(t *testing.T) {
+	api, err := NewMapsClient(apiKey)
+	assert.NoError(t, err)
+	places, err := api.TextSearch(context.Background(), "Toronto")
+	assert.NoError(t, err)
+	assert.True(t, len(places) > 0)
+	for _, p := range places {
+		t.Logf("%v", p)
+	}
+}
+
 func TestReverseGeocode(t *testing.T) {
 	api, err := NewMapsClient(apiKey)
 	assert.NoError(t, err)
-	ctx := context.Background()
-	places, err := api.ReverseGeocode(ctx, 53.339897, -6.538458899999999)
+	places, err := api.ReverseGeocode(context.Background(), 53.339897, -6.538458899999999)
 	assert.NoError(t, err)
 	assert.True(t, len(places) > 0)
 	for _, p := range places {

@@ -11,6 +11,10 @@ func (c *MapsApiClient) Autocomplete(ctx context.Context, input string) ([]maps.
 	return c.doAutocomplete(ctx, input)
 }
 
+func (c *MapsApiClient) TextSearch(ctx context.Context, input string) ([]maps.PlacesSearchResult, error) {
+	return c.doTextSearch(ctx, input)
+}
+
 func (c *MapsApiClient) Details(ctx context.Context, placeID string) (*maps.PlaceDetailsResult, error) {
 	return c.doDetails(ctx, placeID)
 }

@@ -21,6 +21,20 @@ func (c *MapsApiClient) Autocomplete(ctx context.Context, input string) ([]maps.
 	return res, err
 }
 
+func (c *MapsApiClient) TextSearch(ctx context.Context, input string) ([]maps.PlacesSearchResult, error) {
+	key := mockKey("TextSearch", input)
+
+	if v, err := readMock(key); err == nil {
+		res, _ := v[0].([]maps.PlacesSearchResult)
+		err, _ := v[1].(error)
+		return res, err
+	}
+
+	res, err := c.doTextSearch(ctx, input)
+	writeMock(key, res, err)
+	return res, err
+}
+
 func (c *MapsApiClient) Details(ctx context.Context, placeID string) (*maps.PlaceDetailsResult, error) {
 	key := mockKey("Details", placeID)
 

@@ -27,7 +27,7 @@ func (p Place) String() string {
 	return string(b)
 }
 
-func (r result) toPlace() *Place {
+func toPlace(r *result) *Place {
 	place := Place{
 		PlaceID:       r.PlaceID,
 		Name:          gPlaceName(r.AddressComponents),
