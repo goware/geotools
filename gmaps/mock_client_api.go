@@ -3,9 +3,23 @@
 package gmaps
 
 import (
+	"encoding/gob"
+
 	"golang.org/x/net/context"
 	"googlemaps.github.io/maps"
 )
+
+func init() {
+	gob.Register(&maps.PlaceDetailsResult{})
+	gob.Register(&maps.QueryAutocompleteResponse{})
+	gob.Register([]maps.GeocodingResult{})
+	gob.Register(&maps.QueryAutocompletePrediction{})
+	gob.Register([]maps.QueryAutocompletePrediction{})
+	gob.Register(&maps.PlacesSearchResult{})
+	gob.Register([]maps.PlacesSearchResult{})
+
+	loadMockFile()
+}
 
 func (c *MapsApiClient) Autocomplete(ctx context.Context, input string) ([]maps.QueryAutocompletePrediction, error) {
 	key := mockKey("Autocomplete", input)

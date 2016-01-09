@@ -6,15 +6,14 @@ import (
 	"encoding/gob"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"strings"
 	"sync"
-
-	"googlemaps.github.io/maps"
 )
 
-const defaultMockFile = `mocks.gob`
+const defaultMockFile = `testdata.gob`
 
 type mockData []interface{}
 
@@ -26,24 +25,18 @@ var (
 	mockMu   sync.RWMutex
 )
 
-func init() {
+func loadMockFile() {
 	if mockFile = os.Getenv("MOCK_FILE"); mockFile == "" {
 		mockFile = defaultMockFile
 	}
 
 	mockMap = make(map[string]mockData)
 
-	gob.Register(&maps.PlaceDetailsResult{})
-	gob.Register(&maps.QueryAutocompleteResponse{})
-	gob.Register([]maps.GeocodingResult{})
-	gob.Register(&maps.QueryAutocompletePrediction{})
-	gob.Register([]maps.QueryAutocompletePrediction{})
-
 	fp, err := os.Open(mockFile)
 	if err == nil {
 		dec := gob.NewDecoder(fp)
 		err := dec.Decode(&mockMap)
-		if err != nil {
+		if err != nil && err != io.EOF {
 			panic(err.Error())
 		}
 	}
@@ -69,7 +62,9 @@ func writeMock(key string, data ...interface{}) error {
 	// Don't know how to make this happen just once at the end of the program. I
 	// don't think this is too bad, this mock helper was written for internal use
 	// only.
-	writeMockFile()
+	if err := writeMockFile(); err != nil {
+		log.Printf("Error writing mock file: %q", err)
+	}
 
 	return nil
 }
