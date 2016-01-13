@@ -6,10 +6,10 @@ import (
 )
 
 var (
-	defaultMapsClient *gmaps.MapsApiClient
+	defaultMapsClient gmaps.MapsApiClient
 )
 
-func mapsClient() *gmaps.MapsApiClient {
+func mapsClient() gmaps.MapsApiClient {
 	if defaultMapsClient == nil {
 		panic("Maps client was not initialized. Missing call to SetAPIKey()?")
 	}
