@@ -5,7 +5,7 @@ import (
 	"googlemaps.github.io/maps"
 )
 
-func (c *MapsApiClient) doAutocomplete(ctx context.Context, input string) ([]maps.QueryAutocompletePrediction, error) {
+func (c *mapsApiClient) Autocomplete(ctx context.Context, input string) ([]maps.QueryAutocompletePrediction, error) {
 	if c.client == nil {
 		return nil, errMissingClient
 	}
@@ -25,7 +25,7 @@ func (c *MapsApiClient) doAutocomplete(ctx context.Context, input string) ([]map
 	return res.Predictions, err
 }
 
-func (c *MapsApiClient) doTextSearch(ctx context.Context, input string) ([]maps.PlacesSearchResult, error) {
+func (c *mapsApiClient) TextSearch(ctx context.Context, input string) ([]maps.PlacesSearchResult, error) {
 	if c.client == nil {
 		return nil, errMissingClient
 	}
@@ -45,7 +45,7 @@ func (c *MapsApiClient) doTextSearch(ctx context.Context, input string) ([]maps.
 	return res.Results, err
 }
 
-func (c *MapsApiClient) doDetails(ctx context.Context, placeID string) (*maps.PlaceDetailsResult, error) {
+func (c *mapsApiClient) Details(ctx context.Context, placeID string) (*maps.PlaceDetailsResult, error) {
 	if c.client == nil {
 		return nil, errMissingClient
 	}
@@ -65,7 +65,7 @@ func (c *MapsApiClient) doDetails(ctx context.Context, placeID string) (*maps.Pl
 	return &res, err
 }
 
-func (c *MapsApiClient) doReverseGeocode(ctx context.Context, lat, lng float64) ([]maps.GeocodingResult, error) {
+func (c *mapsApiClient) ReverseGeocode(ctx context.Context, lat, lng float64) ([]maps.GeocodingResult, error) {
 	if c.client == nil {
 		return nil, errMissingClient
 	}

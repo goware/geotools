@@ -11,8 +11,13 @@ const (
 	apiKey = "AIzaSyAwoYYcg8R4K91Sc8fim3hw7OPe48wX2RI"
 )
 
+func testMapsClient(apiKey string) (MapsApiClient, error) {
+	//return NewMapsClient(apiKey)
+	return newMockMapsClient(apiKey)
+}
+
 func TestDetails(t *testing.T) {
-	api, err := NewMapsClient(apiKey)
+	api, err := testMapsClient(apiKey)
 	assert.NoError(t, err)
 	place, err := api.Details(context.Background(), "ChIJL6wn6oAOZ0gRoHExl6nHAAo")
 	assert.NoError(t, err)
@@ -21,7 +26,7 @@ func TestDetails(t *testing.T) {
 }
 
 func TestAutocomplete(t *testing.T) {
-	api, err := NewMapsClient(apiKey)
+	api, err := testMapsClient(apiKey)
 	assert.NoError(t, err)
 	predictions, err := api.Autocomplete(context.Background(), "dublin")
 	assert.NoError(t, err)
@@ -32,7 +37,7 @@ func TestAutocomplete(t *testing.T) {
 }
 
 func TestTextSearch(t *testing.T) {
-	api, err := NewMapsClient(apiKey)
+	api, err := testMapsClient(apiKey)
 	assert.NoError(t, err)
 	places, err := api.TextSearch(context.Background(), "Toronto")
 	assert.NoError(t, err)
@@ -43,7 +48,7 @@ func TestTextSearch(t *testing.T) {
 }
 
 func TestReverseGeocode(t *testing.T) {
-	api, err := NewMapsClient(apiKey)
+	api, err := testMapsClient(apiKey)
 	assert.NoError(t, err)
 	places, err := api.ReverseGeocode(context.Background(), 53.339897, -6.538458899999999)
 	assert.NoError(t, err)
