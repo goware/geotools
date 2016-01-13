@@ -6,20 +6,23 @@ import (
 	"googlemaps.github.io/maps"
 )
 
-// AddressComponent represents a part of an address.
-type AddressComponent struct {
-	Name string `json:"name"`
-	Type string `json:"type"`
+// Address represents a normalized address.
+type Address struct {
+	Street      string `json:"street,omitempty"`
+	HouseNumber string `json:"house_number,omitempty"`
+	City        string `json:"city,omitempty"`
+	State       string `json:"state,omitempty"`
+	Country     string `json:"country,omitempty"`
+	Formatted   string `json:"formatted"`
 }
 
 // Place represents a physical location.
 type Place struct {
-	PlaceID           string             `json:"place_id"`
-	Name              string             `json:"name"`
-	AddressComponents []AddressComponent `json:"address_components"`
-	AddressString     string             `json:"address_string"`
-	Location          *Point             `json:"location"`
-	BoundingBox       *Envelope          `json:"bounding_box"`
+	PlaceID     string    `json:"place_id"`
+	Name        string    `json:"name"`
+	Address     Address   `json:"address"`
+	Location    *Point    `json:"location"`
+	BoundingBox *Envelope `json:"bounding_box"`
 }
 
 func (p Place) String() string {
@@ -29,15 +32,31 @@ func (p Place) String() string {
 
 func toPlace(r *result) *Place {
 	place := Place{
-		PlaceID:       r.PlaceID,
-		Name:          gPlaceName(r.AddressComponents),
-		Location:      gLatLngToPoint(r.Geometry.Location),
-		AddressString: r.FormattedAddress,
+		PlaceID:  r.PlaceID,
+		Name:     gPlaceName(r.AddressComponents),
+		Location: gLatLngToPoint(r.Geometry.Location),
 	}
-	place.AddressComponents = make([]AddressComponent, len(r.AddressComponents))
-	for i, c := range r.AddressComponents {
-		place.AddressComponents[i].Name = c.LongName
-		place.AddressComponents[i].Type = c.Types[0]
+
+	place.Address = Address{
+		Formatted: r.FormattedAddress,
+	}
+
+	for _, c := range r.AddressComponents {
+		if matchAnyType([]string{"street_address", "route"}, c.Types) {
+			place.Address.Street = c.LongName
+		}
+		if matchAnyType([]string{"house_number", "street_number"}, c.Types) {
+			place.Address.HouseNumber = c.LongName
+		}
+		if matchAnyType([]string{"sublocality", "locality", "postal_town"}, c.Types) {
+			place.Address.City = c.LongName
+		}
+		if matchAnyType([]string{"administrative_area_level_1"}, c.Types) {
+			place.Address.State = c.LongName
+		}
+		if matchAnyType([]string{"country"}, c.Types) {
+			place.Address.Country = c.LongName
+		}
 	}
 
 	ne := r.Geometry.Viewport.NorthEast
@@ -64,4 +83,15 @@ func gPlaceName(ac []maps.AddressComponent) string {
 		return ac[0].LongName
 	}
 	return ""
+}
+
+func matchAnyType(types []string, cmp []string) bool {
+	for _, t := range types {
+		for _, c := range cmp {
+			if c == t {
+				return true
+			}
+		}
+	}
+	return false
 }
