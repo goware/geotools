@@ -1,6 +1,7 @@
 package gmaps
 
 import (
+	"errors"
 	"time"
 
 	"golang.org/x/net/context"
@@ -8,6 +9,10 @@ import (
 )
 
 var queryTimeout = time.Second * 10
+
+var (
+	errMissingClient = errors.New("Missing client")
+)
 
 type MapsApiClient interface {
 	Autocomplete(context.Context, string) ([]maps.QueryAutocompletePrediction, error)
