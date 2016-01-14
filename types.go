@@ -18,6 +18,10 @@ type Address struct {
 	Formatted   string `json:"formatted"`
 }
 
+func (a Address) String() string {
+	return a.Formatted
+}
+
 // Place represents a physical location.
 type Place struct {
 	PlaceID     string    `json:"place_id"`

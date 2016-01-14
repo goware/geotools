@@ -2,6 +2,7 @@ package geoy
 
 import (
 	"encoding/json"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -46,6 +47,7 @@ func TestLookupCoordinates(t *testing.T) {
 	assert.Equal(t, "Kildare", first.Address.State)
 	assert.Equal(t, "Ireland", first.Address.Country)
 	assert.Equal(t, "4 Main St, Celbridge, Co. Kildare, Ireland", first.Address.Formatted)
+	assert.Equal(t, "4 Main St, Celbridge, Co. Kildare, Ireland", first.Address.String())
 
 	t.Logf("%v", res)
 }
@@ -88,6 +90,7 @@ func TestPlaceDetails(t *testing.T) {
 	assert.Equal(t, "New South Wales", place.Address.State)
 	assert.Equal(t, "Australia", place.Address.Country)
 	assert.Equal(t, "32 The Promenade, King Street Wharf 5, Sydney NSW 2000, Australia", place.Address.Formatted)
+	assert.Equal(t, "32 The Promenade, King Street Wharf 5, Sydney NSW 2000, Australia", fmt.Sprintf("%s", place.Address))
 
 	t.Logf("%v", place)
 }
