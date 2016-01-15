@@ -130,32 +130,32 @@ type Geometry interface {
 	WKT() string
 }
 
-// Envelope is a GeoJSON like shape where coordinates contains [[left, top],
+// BoundingBox is a GeoJSON like shape where coordinates contains [[left, top],
 // [right, bottom]]
-type Envelope struct {
+type BoundingBox struct {
 	Type        string      `json:"type"`
 	Coordinates [][]float64 `json:"coordinates"`
 }
 
-// NewEnvelope creates an envelope.
-func NewEnvelope(left, top, right, bottom float64) *Envelope {
-	e := Envelope{Type: "envelope", Coordinates: [][]float64{[]float64{left, top}, []float64{right, bottom}}}
+// NewBoundingBox creates an envelope.
+func NewBoundingBox(left, top, right, bottom float64) *BoundingBox {
+	e := BoundingBox{Type: "envelope", Coordinates: [][]float64{[]float64{left, top}, []float64{right, bottom}}}
 	return &e
 }
 
 // WKT implements Geometry.
-func (e Envelope) WKT() string {
+func (e BoundingBox) WKT() string {
 	l, t := e.Coordinates[0][0], e.Coordinates[0][1]
 	r, b := e.Coordinates[1][0], e.Coordinates[1][1]
 	return fmt.Sprintf("POLYGON((%0.6f %0.6f, %0.6f %0.6f, %0.6f %0.6f, %0.6f %0.6f, %0.6f %0.6f))", l, t, l, b, r, b, r, t, l, t)
 }
 
 // MarshalDB implements db.Marshaler
-func (e Envelope) MarshalDB() (interface{}, error) {
+func (e BoundingBox) MarshalDB() (interface{}, error) {
 	return e.WKT(), nil
 }
 
 // Implements fmt.Stringer
-func (e Envelope) String() string {
+func (e BoundingBox) String() string {
 	return e.WKT()
 }

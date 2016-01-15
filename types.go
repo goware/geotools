@@ -28,7 +28,7 @@ type Place struct {
 	Name        string    `json:"name"`
 	Address     Address   `json:"address"`
 	Location    *Point    `json:"location"`
-	BoundingBox *Envelope `json:"bounding_box"`
+	BoundingBox *BoundingBox `json:"bounding_box"`
 }
 
 type orderedAddressComponents []maps.AddressComponent
@@ -76,7 +76,7 @@ func toPlace(r *result) *Place {
 			case matchAnyType([]string{"street_address", "route", "premise", "subpremise"}, c.Types):
 				return &place.Address.Street
 			case matchAnyType([]string{"house_number", "street_number"}, c.Types):
-				return &place.Address.HouseNumber
+				return &place.Address.Number
 			case matchAnyType([]string{"sublocality", "locality", "postal_town"}, c.Types):
 				return &place.Address.City
 			case matchAnyType([]string{"administrative_area_level_1"}, c.Types):
@@ -99,7 +99,7 @@ func toPlace(r *result) *Place {
 	ne := r.Geometry.Viewport.NorthEast
 	sw := r.Geometry.Viewport.SouthWest
 
-	place.BoundingBox = NewEnvelope(sw.Lng, ne.Lat, ne.Lng, sw.Lat)
+	place.BoundingBox = NewBoundingBox(sw.Lng, ne.Lat, ne.Lng, sw.Lat)
 
 	return &place
 }

@@ -42,7 +42,7 @@ func TestLookupCoordinates(t *testing.T) {
 	assert.Equal(t, "Eio0IE1haW4gU3QsIENlbGJyaWRnZSwgQ28uIEtpbGRhcmUsIElyZWxhbmQ", first.PlaceID)
 
 	assert.Equal(t, "Main Street", first.Address.Street)
-	assert.Equal(t, "4", first.Address.HouseNumber)
+	assert.Equal(t, "4", first.Address.Number)
 	assert.Equal(t, "Celbridge", first.Address.City)
 	assert.Equal(t, "Kildare", first.Address.State)
 	assert.Equal(t, "Ireland", first.Address.Country)
@@ -112,7 +112,7 @@ func TestInstagramToPlace(t *testing.T) {
 	assert.Equal(t, first.PlaceID, "Ei8xNzMtMTk5IFMgUGFyayBTdCwgU2FuIEZyYW5jaXNjbywgQ0EgOTQxMDcsIFVTQQ")
 
 	assert.Equal(t, "South Park Street", first.Address.Street)
-	assert.Equal(t, "173-199", first.Address.HouseNumber)
+	assert.Equal(t, "173-199", first.Address.Number)
 	assert.Equal(t, "San Francisco", first.Address.City)
 	assert.Equal(t, "California", first.Address.State)
 	assert.Equal(t, "United States", first.Address.Country)
