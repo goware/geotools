@@ -14,6 +14,7 @@ var (
 	errMissingClient = errors.New("Missing client")
 )
 
+// MapsApiClient defines methods for wrapping maps APIs.
 type MapsApiClient interface {
 	Autocomplete(context.Context, string) ([]maps.QueryAutocompletePrediction, error)
 	TextSearch(context.Context, string) ([]maps.PlacesSearchResult, error)
@@ -26,6 +27,7 @@ type mapsApiClient struct {
 	client *maps.Client
 }
 
+// NewMapsClient returns a Google Maps client with the given key.
 func NewMapsClient(key string) (MapsApiClient, error) {
 	c := &mapsApiClient{key: key}
 	mapsClient, err := maps.NewClient(maps.WithAPIKey(c.key))

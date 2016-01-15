@@ -13,7 +13,6 @@ const (
 
 func testMapsClient(apiKey string) (MapsApiClient, error) {
 	//return NewMapsClient(apiKey)
-	return newMapsApiRecorder(apiKey)
 	return newMockMapsClient(apiKey)
 }
 
