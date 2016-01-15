@@ -10,12 +10,12 @@ import (
 
 // Address represents a normalized address.
 type Address struct {
-	Street      string `json:"street,omitempty"`
-	HouseNumber string `json:"house_number,omitempty"`
-	City        string `json:"city,omitempty"`
-	State       string `json:"state,omitempty"`
-	Country     string `json:"country,omitempty"`
-	Formatted   string `json:"formatted"`
+	Number    string `json:"number,omitempty"`
+	Street    string `json:"street,omitempty"`
+	City      string `json:"city,omitempty"`
+	State     string `json:"state,omitempty"`
+	Country   string `json:"country,omitempty"`
+	Formatted string `json:"formatted"`
 }
 
 func (a Address) String() string {
