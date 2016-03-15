@@ -1,4 +1,4 @@
-package geoy
+package geotools
 
 import (
 	"encoding/json"
