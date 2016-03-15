@@ -1,7 +1,7 @@
 package geotools
 
 import (
-	"github.com/pressly/geotools/gmaps"
+	"github.com/goware/geotools/gmaps"
 	"golang.org/x/net/context"
 )
 
