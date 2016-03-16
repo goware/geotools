@@ -48,10 +48,10 @@ func (m *mockApiClient) TextSearch(_ context.Context, q string) ([]maps.PlacesSe
 	return nil, errUnknownMockResource
 }
 
-func (m *mockApiClient) Autocomplete(_ context.Context, q string) ([]maps.QueryAutocompletePrediction, error) {
+func (m *mockApiClient) Autocomplete(_ context.Context, q string) ([]maps.AutocompletePrediction, error) {
 	switch q {
 	case `dublin`:
-		r := func() (r []maps.QueryAutocompletePrediction) {
+		r := func() (r []maps.AutocompletePrediction) {
 			if err := json.Unmarshal([]byte(`[{"description":"Dublin, Ireland","place_id":"ChIJL6wn6oAOZ0gRoHExl6nHAAo","types":["locality","political","geocode"],"matched_substrings":[{"length":6,"offset":0}],"terms":[{"value":"Dublin","offset":0},{"value":"Ireland","offset":8}]},{"description":"Dublin Airport, Dublin, Ireland","place_id":"ChIJLxmTab4RZ0gRVfMlt7UbElU","types":["establishment"],"matched_substrings":[{"length":6,"offset":0}],"terms":[{"value":"Dublin Airport","offset":0},{"value":"Dublin","offset":16},{"value":"Ireland","offset":24}]},{"description":"Dublin, CA, United States","place_id":"ChIJMSKJ1lzmj4ARV0D2joR8Mjs","types":["locality","political","geocode"],"matched_substrings":[{"length":6,"offset":0}],"terms":[{"value":"Dublin","offset":0},{"value":"CA","offset":8},{"value":"United States","offset":12}]},{"description":"Dublin, OH, United States","place_id":"ChIJH6FQ1MTsOIgRKJBoFWgXwgA","types":["locality","political","geocode"],"matched_substrings":[{"length":6,"offset":0}],"terms":[{"value":"Dublin","offset":0},{"value":"OH","offset":8},{"value":"United States","offset":12}]},{"description":"Dublin, GA, United States","place_id":"ChIJBwNQPw4g8YgR5QLzgZrnqYI","types":["locality","political","geocode"],"matched_substrings":[{"length":6,"offset":0}],"terms":[{"value":"Dublin","offset":0},{"value":"GA","offset":8},{"value":"United States","offset":12}]}]`), &r); err != nil {
 				panic(err.Error())
 			}
