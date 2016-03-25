@@ -16,7 +16,7 @@ var (
 
 // MapsApiClient defines methods for wrapping maps APIs.
 type MapsApiClient interface {
-	Autocomplete(context.Context, string) ([]maps.QueryAutocompletePrediction, error)
+	Autocomplete(context.Context, string) ([]maps.AutocompletePrediction, error)
 	TextSearch(context.Context, string) ([]maps.PlacesSearchResult, error)
 	Details(context.Context, string) (*maps.PlaceDetailsResult, error)
 	ReverseGeocode(context.Context, float64, float64) ([]maps.GeocodingResult, error)
@@ -38,7 +38,7 @@ func NewMapsClient(key string) (MapsApiClient, error) {
 	return c, nil
 }
 
-func (c *mapsApiClient) Autocomplete(ctx context.Context, input string) ([]maps.QueryAutocompletePrediction, error) {
+func (c *mapsApiClient) Autocomplete(ctx context.Context, input string) ([]maps.AutocompletePrediction, error) {
 	if c.client == nil {
 		return nil, errMissingClient
 	}

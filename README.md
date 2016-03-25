@@ -1,7 +1,7 @@
-GEOy
-====
+GeoTools
+========
 
-GEOy is a library and Web service written in Go that creates a singular interface to geo-location
+GeoTools is a library and Web service written in Go that creates a singular interface to geo-location
 data via the Google Maps/Location APIs.
 
 ## Part 1
